@@ -1,0 +1,6 @@
+node_modules/
+.expo/
+dist/
+.expo-web/
+expo-env.d.ts
+*.tsbuildinfo
