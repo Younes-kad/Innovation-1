@@ -1,56 +1,44 @@
-# Foothold
+﻿# Foothold
 
-En enkel universitetsprototype med fem fiktive jobs, byfilter og en lokal ansøgningsformular.
+En enkel React Native-prototype med fem fiktive jobs og tre skærme: joboversigt, jobbeskrivelse og ansøgning.
 
 ## Start
 
-Installér Node.js LTS, hvis det ikke allerede findes. Kør derefter i projektmappen:
+Kør `npm install` og derefter `npm start`. Tryk `w` for browseren, eller brug Expo Go på en kompatibel telefon. `npm run web` starter direkte til web. På Windows kan du også bruge `start.cmd`.
 
-```sh
-npm install
-npm start
-```
+## Få filer
 
-Tryk `w` for at åbne i browseren, eller brug `npm run web`.
-På telefon kan du bruge Expo Go, der understøtter projektets Expo SDK 55.
-Browseren er også velegnet til at præsentere prototypen.
+- `App.js`: jobdata, navigation, jobkort og alle tre skærme. Kommentarer viser, hvor hver del starter.
+- `styles.js`: farver og styling i en separat fil, som opgaven kræver.
+- `index.js`: starter appen med Expo.
+- `app.json`, `package.json` og `package-lock.json`: projektets opsætning og pakker.
 
-## Koden
+Tre skærme behøver ikke ligge i tre filer. HomeScreen, JobScreen og ApplyScreen er stadig hver sin skærm i React Navigation, men står samlet i App.js.
 
-- `app/_layout.tsx`: Expo Router og skærmenes overskrifter.
-- `app/index.tsx`: jobliste og filter.
-- `app/job/[id].tsx`: beskrivelse og konkrete arbejdsopgaver.
-- `app/apply/[id].tsx`: formular og kvittering.
-- `components/JobCard.tsx`: et genbrugeligt jobkort.
-- `components/FilterButton.tsx`: en filterknap.
-- `data/jobs.ts`: alle fem jobs og deres TypeScript-type.
-- `styles/styles.ts`: farver og styling med StyleSheet.
+## Kode og brugerfeedback
 
-Filteret gemmer den valgte by med useState. Arrayets filter-metode viser jobs i den valgte by, eller alle jobs når Alle er valgt.
+FlatList viser de fem jobs fra et array. JobCard genbruges for hvert job og modtager jobbet og knappens funktion som props. navigation.navigate åbner en ny skærm med jobbets id. find henter jobbet, og map viser arbejdsopgaverne.
 
-Expo Router bruger filerne i app-mappen som skærme. router.push åbner en skærm med jobbets id. useLocalSearchParams læser id, og find henter det tilsvarende job fra jobs.ts.
+Formularen bruger TextInput og useState til navn, e-mail og en kort tekst. En if-sætning kontrollerer, at felterne er udfyldt. Send viser kun en lokal kvittering: oplysningerne bliver hverken sendt til virksomheder eller gemt permanent.
 
-Formularen bruger useState til navn, e-mail, kort tekst og kvittering. Den tjekker blot, at felterne er udfyldt, og at e-mailen har et enkelt gyldigt format. Send-knappen ændrer sent til true. Oplysningerne sendes ikke til nogen server og gemmes ikke permanent.
+Interviewene pegede på et uklart formål, et ønske om filtrering og behov for konkrete arbejdsopgaver. Prototypen bruger derfor betegnelsen jobs og viser konkrete arbejdsopgaver. Filtrer-knappen er kun visuel og er deaktiveret. Den filtrerer ikke listen. Filtrering efter lokation eller jobtype er et forslag til videreudvikling på baggrund af Gabriels feedback. Den enkle formular er bevaret i tråd med begge interviewpersoners positive vurderinger.
 
-SafeAreaView sørger for afstand til telefonens systemområder. ScrollView og KeyboardAvoidingView gør formularen brugbar på mindre skærme med tastaturet åbent. De øvrige UI-elementer er React Natives egne komponenter.
+Strukturen bygger på JavaScript, komponenter, useState, navigation, lister og separat StyleSheet fra [undervisningen](https://github.com/orgs/CBS-INNT-26/repositories). Tastatur- og safe-area-håndtering hjælper visningen på telefon.
 
-## Tjek
+## Demovideo
 
-```sh
-npm run typecheck
-npx expo install --check
-npx expo export --platform web
-```
+Demovideo er endnu ikke tilføjet. Indsæt linket før aflevering.
 
-Manuel gennemgang:
-1. Alle viser 5 jobs, København 3 og Aarhus 2.
-2. Åbn et job, og tjek titel, virksomhed, by, kategori og arbejdsopgaver.
-3. Tryk Ansøg nu, og tjek at det samme job vises.
-4. Tomme eller ugyldige felter skal vise en fejl.
-5. Udfyld formularen, send, og se "Din ansøgning er sendt ✓".
-6. Gå tilbage til jobs.
+## Kontrol
 
-## Start paa denne Windows-computer
+Kør `npx expo export --platform web` for at kontrollere webbygningen.
 
-Koer .\start.cmd fra projektmappen. Den finder ogsaa den lokale Node.js-installation, som blev brugt til at kontrollere projektet. Tryk w i Expo-terminalen for at aabne browseren.
+Kontroller også manuelt:
+1. Listen viser fem jobs, og Filtrer-knappen er synlig uden funktion.
+2. Se job åbner det valgte job og viser arbejdsopgaverne.
+3. Ansøg nu åbner formularen for samme job.
+4. Tomme felter giver en fejl. Udfyldte felter giver en lokal kvittering.
+5. Tilbage til jobs vender tilbage til listen. En ny ansøgning har tomme felter.
+6. Afprøv tilbageknapper, rulning og tastatur på telefon.
 
+Aflever koden som GitHub-link og zip uden node_modules sammen med rapport og demovideo.
